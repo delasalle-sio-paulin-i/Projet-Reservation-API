@@ -421,5 +421,50 @@ public class Passerelle {
 		}
     }
 
+    public static String testerDigicodeBatiment(String digicode){
+    	String reponse = "";
+    	try
+    	{	// préparation des paramètres à poster vers le service web
+    		ArrayList<NameValuePair> parametresPostes = new ArrayList<NameValuePair>();
+    		parametresPostes.add(new BasicNameValuePair("digi", digicode));
+    		
+    		String urlDuServiceWeb = _adresseHebergeur + _urlTesterDigicodeBatiment;
+    		Document leDocument = getDocumentXML(urlDuServiceWeb, parametresPostes);
+    		
+    		Element racine = (Element) leDocument.getElementsByTagName("data").item(0);
+    		reponse = racine.getElementsByTagName("reponse").item(0).getTextContent();
+    		   
+    		// retour de la r�ponse du service web
+    		return reponse;
+    	}
+    	catch (Exception ex)
+    	{	String msg = "Erreur : " + ex.getMessage();
+			return msg;
+		}
+    	  	
+    }
+    public static String testerDigicodeSalle(String digicode){
+    	String reponse = "";
+    	try
+    	{	// préparation des paramètres à poster vers le service web
+    		ArrayList<NameValuePair> parametresPostes = new ArrayList<NameValuePair>();
+    		parametresPostes.add(new BasicNameValuePair("digi", digicode));
+    		
+    		String urlDuServiceWeb = _adresseHebergeur + _urlTesterDigicodeSalle;
+    		Document leDocument = getDocumentXML(urlDuServiceWeb, parametresPostes);
+    		
+    		Element racine = (Element) leDocument.getElementsByTagName("data").item(0);
+    		reponse = racine.getElementsByTagName("reponse").item(0).getTextContent();
+    		   
+    		// retour de la r�ponse du service web
+    		return reponse;
+    	}
+    	catch (Exception ex)
+    	{	String msg = "Erreur : " + ex.getMessage();
+			return msg;
+		}
+    	  	
+    }
+ 
 
 }
