@@ -268,9 +268,9 @@ public class Passerelle {
     	{	// préparation des paramètres à poster vers le service web
     		ArrayList<NameValuePair> parametresPostes = new ArrayList<NameValuePair>();
     		parametresPostes.add(new BasicNameValuePair("nom", unUtilisateur.getName()));
-    		parametresPostes.add(new BasicNameValuePair("ancienMdp", unUtilisateur.getPassword()));
-    		parametresPostes.add(new BasicNameValuePair("nouveauMdp", nouveauMdp));
-    		parametresPostes.add(new BasicNameValuePair("confirmationMdp", confirmationMdp));
+    		parametresPostes.add(new BasicNameValuePair("mdpOld", unUtilisateur.getPassword()));
+    		parametresPostes.add(new BasicNameValuePair("mdpNew1", nouveauMdp));
+    		parametresPostes.add(new BasicNameValuePair("mdpNew2", confirmationMdp));
     		
     		String urlDuServiceWeb = _adresseHebergeur + _urlChangerDeMdp;
     		Document leDocument = getDocumentXML(urlDuServiceWeb, parametresPostes);
