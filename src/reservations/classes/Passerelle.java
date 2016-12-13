@@ -1,8 +1,8 @@
 /**
- * Application de suivi des réservations de la Maison des Ligues de Lorraine
- * Thème : développement et test des classes Salle, Reservation, Utilisateur et Passerelle
+ * Application de suivi des rÃ©servations de la Maison des Ligues de Lorraine
+ * ThÃ¨me : dÃ©veloppement et test des classes Salle, Reservation, Utilisateur et Passerelle
  * Auteur : JM CARTRON
- * Dernière mise à jour : 8/11/2016
+ * DerniÃ¨re mise Ã  jour : 8/11/2016
  */
 package reservations.classes;
 
@@ -10,8 +10,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 
-//les import suivant nécessitent d'ajouter au projet tous les composant du plugin (fourni) 
-//httpcomponents-client-4.2.3 / lib  (ces plugins font partie également du SDK Android)
+//les import suivant nÃ©cessitent d'ajouter au projet tous les composant du plugin (fourni) 
+//httpcomponents-client-4.2.3 / lib  (ces plugins font partie Ã©galement du SDK Android)
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -30,24 +30,24 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 /**
  * Cette classe fait le lien entre les services web et l'application
- * Elle utilise le modèle Jaxp pour parcourir le document XML
- * Ce modèle fait partie du JDK (et également du SDK Android)
+ * Elle utilise le modÃ¨le Jaxp pour parcourir le document XML
+ * Ce modÃ¨le fait partie du JDK (et Ã©galement du SDK Android)
  */
 public class Passerelle {
 
-	/** Membres privés */
+	/** Membres privÃ©s */
 	
-	// Adresse de l'hébergeur Internet
+	// Adresse de l'hÃ©bergeur Internet
 	private static String _adresseHebergeur = "http://xxxxxxxxxxxxxxxx/m.m2l/services/";
-	// Adresse du localhost en cas d'exécution sur le poste de développement (projet de tests des classes)
+	// Adresse du localhost en cas d'exÃ©cution sur le poste de dÃ©veloppement (projet de tests des classes)
 	//private static String _adresseHebergeur = "http://127.0.0.1/ws-php-xxxxxxx/m.m2l/services/";
 	
-	// Noms des services web déjà traités par la passerelle
+	// Noms des services web dÃ©jÃ  traitÃ©s par la passerelle
 	private static String _urlConnecter = "Connecter.php";
 	private static String _urlConsulterReservations = "ConsulterReservations.php";
 	private static String _urlCreerUtilisateur = "CreerUtilisateur.php";
 	
-	// noms des services web pas encore traités par la passerelle (à développer)
+	// noms des services web pas encore traitÃ©s par la passerelle (Ã  dÃ©velopper)
 	private static String _urlConsulterSalles = "ConsulterSalles.php";
 	private static String _urlAnnulerReservation = "AnnulerReservation.php";
 	private static String _urlChangerDeMdp = "ChangerDeMdp.php";	
@@ -57,31 +57,31 @@ public class Passerelle {
 	private static String _urlTesterDigicodeBatiment = "TesterDigicodeBatiment.php";
 	private static String _urlTesterDigicodeSalle = "TesterDigicodeSalle.php";
 	
-	// fonction privée statique pour obtenir un document XML à partir de l'URL d'un service web
+	// fonction privÃ©e statique pour obtenir un document XML Ã  partir de l'URL d'un service web
 	private static Document getDocumentXML(String urlDuServiceWeb, ArrayList<NameValuePair> parametresPostes)
 	{
     	try
-    	{	// création d'un DefaultHttpClient
+    	{	// crÃ©ation d'un DefaultHttpClient
 			HttpClient unClientHttp = new DefaultHttpClient();
 			
-			// création d'une requête HTTP de type POST
+			// crÃ©ation d'une requÃªte HTTP de type POST
 			HttpPost uneRequeteHttp = new HttpPost(urlDuServiceWeb);
 			uneRequeteHttp.setHeader("Content-Type", "application/x-www-form-urlencoded");
 			
-			// passage des paramètres à poster
+			// passage des paramÃ¨tres Ã  poster
 			uneRequeteHttp.setEntity(new UrlEncodedFormEntity(parametresPostes, "UTF-8"));
 			
-			// exécution de la requête HTTP
+			// exÃ©cution de la requÃªte HTTP
 			HttpResponse uneReponseHttp = unClientHttp.execute(uneRequeteHttp);
 			
-			// récupération de la réponse dans un flux en lecture (InputStream)
+			// rÃ©cupÃ©ration de la rÃ©ponse dans un flux en lecture (InputStream)
 			InputStream unFluxEnEntree = uneReponseHttp.getEntity().getContent();
 	
-			// création d'une instance de DocumentBuilderFactory et DocumentBuilder
+			// crÃ©ation d'une instance de DocumentBuilderFactory et DocumentBuilder
 			DocumentBuilderFactory leDBF = DocumentBuilderFactory.newInstance();
 			DocumentBuilder leDB = leDBF.newDocumentBuilder();
 	
-			// création d'un nouveau document XML avec en argument le flux XML
+			// crÃ©ation d'un nouveau document XML avec en argument le flux XML
 			Document leDocument = leDB.parse(unFluxEnEntree);
 			return leDocument;
     	}
@@ -90,17 +90,17 @@ public class Passerelle {
 		}	
 	}
 	
-    // Méthode de classe pour se connecter (service Connecter.php)
+    // MÃ©thode de classe pour se connecter (service Connecter.php)
     public static String connecter(String nomUtilisateur, String mdpUtilisateur)
     {
     	String reponse = "";
     	try
-    	{	// préparation des paramètres à poster vers le service web
+    	{	// prÃ©paration des paramÃ¨tres Ã  poster vers le service web
     		ArrayList<NameValuePair> parametresPostes = new ArrayList<NameValuePair>();
     		parametresPostes.add(new BasicNameValuePair("nom", nomUtilisateur));
     		parametresPostes.add(new BasicNameValuePair("mdp", mdpUtilisateur));    		
     		
-    		// création d'un nouveau document XML à partir de l'URL du service web et des paramètres
+    		// crÃ©ation d'un nouveau document XML Ã  partir de l'URL du service web et des paramÃ¨tres
     		String urlDuServiceWeb = _adresseHebergeur + _urlConnecter;	
     		Document leDocument = getDocumentXML(urlDuServiceWeb, parametresPostes);
     		
@@ -108,7 +108,7 @@ public class Passerelle {
     		Element racine = (Element) leDocument.getElementsByTagName("data").item(0);
     		reponse = racine.getElementsByTagName("reponse").item(0).getTextContent();
     		
-    		// retour de la réponse du service web
+    		// retour de la rÃ©ponse du service web
     		return reponse;
     	}
     	catch (Exception ex)
@@ -117,12 +117,12 @@ public class Passerelle {
 		}
     }
 
-    // Méthode de classe pour créer un utilisateur (service CreerUtilisateur.php)
+    // MÃ©thode de classe pour crÃ©er un utilisateur (service CreerUtilisateur.php)
     public static String creerUtilisateur(String nomAdmin, String mdpAdmin, Utilisateur unUtilisateur)
     {
     	String reponse = "";
     	try
-    	{	// préparation des paramètres à poster vers le service web
+    	{	// prÃ©paration des paramÃ¨tres Ã  poster vers le service web
     		ArrayList<NameValuePair> parametresPostes = new ArrayList<NameValuePair>();
     		parametresPostes.add(new BasicNameValuePair("nomAdmin", nomAdmin));
     		parametresPostes.add(new BasicNameValuePair("mdpAdmin", mdpAdmin));
@@ -130,7 +130,7 @@ public class Passerelle {
     		parametresPostes.add(new BasicNameValuePair("level", String.valueOf(unUtilisateur.getLevel())));
     		parametresPostes.add(new BasicNameValuePair("email", unUtilisateur.getEmail()));
     		
-    		// création d'un nouveau document XML à partir de l'URL du service web et des paramètres
+    		// crÃ©ation d'un nouveau document XML Ã  partir de l'URL du service web et des paramÃ¨tres
     		String urlDuServiceWeb = _adresseHebergeur + _urlCreerUtilisateur;
     		Document leDocument = getDocumentXML(urlDuServiceWeb, parametresPostes);
     		
@@ -138,7 +138,7 @@ public class Passerelle {
     		Element racine = (Element) leDocument.getElementsByTagName("data").item(0);
     		reponse = racine.getElementsByTagName("reponse").item(0).getTextContent();
     		
-    		// retour de la réponse du service web
+    		// retour de la rÃ©ponse du service web
     		return reponse;
     	}
     	catch (Exception ex)
@@ -147,17 +147,17 @@ public class Passerelle {
 		}
     }
 
-    // Méthode de classe pour récupérer les réservations d'un utilisateur (service ConsulterReservations.php)
+    // MÃ©thode de classe pour rÃ©cupÃ©rer les rÃ©servations d'un utilisateur (service ConsulterReservations.php)
     public static String consulterReservations(Utilisateur unUtilisateur)
     {
     	String reponse = "";
     	try
-    	{	// préparation des paramètres à poster vers le service web
+    	{	// prÃ©paration des paramÃ¨tres Ã  poster vers le service web
     		ArrayList<NameValuePair> parametresPostes = new ArrayList<NameValuePair>();
     		parametresPostes.add(new BasicNameValuePair("nom", unUtilisateur.getName()));
     		parametresPostes.add(new BasicNameValuePair("mdp", unUtilisateur.getPassword()));
     		
-    		// création d'un nouveau document XML à partir de l'URL du service web et des paramètres
+    		// crÃ©ation d'un nouveau document XML Ã  partir de l'URL du service web et des paramÃ¨tres
     		String urlDuServiceWeb = _adresseHebergeur + _urlConsulterReservations;
     		Document leDocument = getDocumentXML(urlDuServiceWeb, parametresPostes);
 
@@ -167,13 +167,13 @@ public class Passerelle {
     		reponse = racine.getElementsByTagName("reponse").item(0).getTextContent();
     		
 			NodeList listeNoeudsMembres = leDocument.getElementsByTagName("reservation");
-			/* Exemple de données obtenues pour un utilisateur :
+			/* Exemple de donnÃ©es obtenues pour un utilisateur :
 			    <reservation>
 			      <id>1</id>
 			      <timestamp>2014-09-11 22:20:54</timestamp>
 			      <start_time>2014-10-01 09:00:00</start_time>
 			      <end_time>2014-10-01 12:00:00</end_time>
-			      <room_name>Multimédia</room_name>
+			      <room_name>MultimÃ©dia</room_name>
 			      <status>4</status>
 			      <digicode></digicode>
 			    </reservation>
@@ -182,10 +182,10 @@ public class Passerelle {
 			
 			// parcours de la liste des noeuds <reservation> et ajout dans l'objet unUtilisateur
 			for (int i = 0 ; i <= listeNoeudsMembres.getLength()-1 ; i++)
-			{	// création de l'élement courant à chaque tour de boucle
+			{	// crÃ©ation de l'Ã©lement courant Ã  chaque tour de boucle
 				Element courant = (Element) listeNoeudsMembres.item(i);
 				
-				// lecture des balises intérieures
+				// lecture des balises intÃ©rieures
 				int id = Integer.parseInt(courant.getElementsByTagName("id").item(0).getTextContent());
 				Date timestamp = Outils.ConvertirEnDate(courant.getElementsByTagName("timestamp").item(0).getTextContent(), formatUS);
 				Date start_time = Outils.ConvertirEnDate(courant.getElementsByTagName("start_time").item(0).getTextContent(), formatUS);
@@ -194,14 +194,14 @@ public class Passerelle {
 				int status = Integer.parseInt(courant.getElementsByTagName("status").item(0).getTextContent());
 				String digicode = courant.getElementsByTagName("digicode").item(0).getTextContent();
 				
-				// crée un objet Reservation
+				// crÃ©e un objet Reservation
 				Reservation uneReservation = new Reservation(id, timestamp, start_time, end_time, room_name, status, digicode);
 				
-				// ajoute la réservation à l'objet unUtilisateur
+				// ajoute la rÃ©servation Ã  l'objet unUtilisateur
 				unUtilisateur.ajouteReservation(uneReservation);
 			}
 
-    		// retour de la réponse du service web
+    		// retour de la rÃ©ponse du service web
     		return reponse;
     	}
     	catch (Exception ex)
@@ -209,4 +209,83 @@ public class Passerelle {
 			return msg;
 		}
     }
+    
+    public static String ChangerDeMdp(Utilisateur unUtilisateur, String nouveauMdp, String confirmationMdp){
+    	String reponse = "";
+    	try
+    	{	// prÃ©paration des paramÃ¨tres Ã  poster vers le service web
+    		ArrayList<NameValuePair> parametresPostes = new ArrayList<NameValuePair>();
+    		parametresPostes.add(new BasicNameValuePair("nom", unUtilisateur.getName()));
+    		parametresPostes.add(new BasicNameValuePair("ancienMdp", unUtilisateur.getPassword()));
+    		parametresPostes.add(new BasicNameValuePair("nouveauMdp", nouveauMdp));
+    		parametresPostes.add(new BasicNameValuePair("confirmationMdp", confirmationMdp));
+    		
+    		String urlDuServiceWeb = _adresseHebergeur + _urlChangerDeMdp;
+    		Document leDocument = getDocumentXML(urlDuServiceWeb, parametresPostes);
+    		
+    		Element racine = (Element) leDocument.getElementsByTagName("data").item(0);
+    		reponse = racine.getElementsByTagName("reponse").item(0).getTextContent();
+    		   
+    		// retour de la rï¿½ponse du service web
+    		return reponse;
+    	}
+    	catch (Exception ex)
+    	{	String msg = "Erreur : " + ex.getMessage();
+			return msg;
+		}
+    	  	
+    }
+    public static String DemanderMdp(Utilisateur unUtilisateur){
+    	String reponse = "";
+    	try
+    	{	// prÃ©paration des paramÃ¨tres Ã  poster vers le service web
+    		ArrayList<NameValuePair> parametresPostes = new ArrayList<NameValuePair>();
+    		parametresPostes.add(new BasicNameValuePair("nom", unUtilisateur.getName()));
+    		
+    		String urlDuServiceWeb = _adresseHebergeur + _urlDemanderMdp;
+    		Document leDocument = getDocumentXML(urlDuServiceWeb, parametresPostes);
+    		
+    		Element racine = (Element) leDocument.getElementsByTagName("data").item(0);
+    		reponse = racine.getElementsByTagName("reponse").item(0).getTextContent();
+    		   
+    		// retour de la rï¿½ponse du service web
+    		return reponse;
+    	}
+    	catch (Exception ex)
+    	{	String msg = "Erreur : " + ex.getMessage();
+			return msg;
+		}
+    	  	
+    }
+    
+    public static String SupprimerUtilisateur(String nomAdmin, String mdpAdmin, Utilisateur unUtilisateur){
+    	String reponse = "";
+    	try
+    	{	// prÃ©paration des paramÃ¨tres Ã  poster vers le service web
+    		ArrayList<NameValuePair> parametresPostes = new ArrayList<NameValuePair>();
+    		parametresPostes.add(new BasicNameValuePair("nom", unUtilisateur.getName()));
+    		
+    		parametresPostes.add(new BasicNameValuePair("nomAdmin", nomAdmin));
+    		parametresPostes.add(new BasicNameValuePair("mdpAdmin", mdpAdmin));
+    		
+    		String urlDuServiceWeb = _adresseHebergeur + _urlSupprimerUtilisateur;
+    		Document leDocument = getDocumentXML(urlDuServiceWeb, parametresPostes);
+    		
+    		Element racine = (Element) leDocument.getElementsByTagName("data").item(0);
+    		reponse = racine.getElementsByTagName("reponse").item(0).getTextContent();
+    		   
+    		// retour de la rï¿½ponse du service web
+    		return reponse;
+    	}
+    	catch (Exception ex)
+    	{	String msg = "Erreur : " + ex.getMessage();
+			return msg;
+		}
+    	  	
+    }
+    
+    
+    
+    
+    
 }
